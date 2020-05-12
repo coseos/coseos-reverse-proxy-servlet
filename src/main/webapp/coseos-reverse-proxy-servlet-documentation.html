@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>coseos reverse proxy servlet documentation</title>
+    <meta charset="utf-8">
+  </head>
+  <body>
+    <div>
+      <div style="width: 88px; height: 88px; background-color: #223355"></div>
+      <h1>coseos reverse proxy servlet</h1>
+      <p>
+          A simple reverse proxy
+      </p>
+      <h2>Summary</h2>
+      <p>
+          The <strong>coseos reverse proxy servlet</strong> is a simple reverse proxy.
+          It is a servlet intended for use with a tomcat web server to help migrate
+          monolithic web apps to micro services.          
+      </p>
+      <h2>Background</h2>
+      <p>
+          You have a legacy tomcat installation running one or more servlet's that are
+          rather monolithic. You want to extrapolate a servlet or parts of a monolithic
+          servlet, based on the path and forward the corresponding requests to a modern
+          micro service. By doing so, you can migrate parts of the application step by step. 
+      </p>
+      <p>
+          Don't get me wrong: Tomcat is a great web server. It just no fun working with
+          older versions of tomcat. You may write your modern micro service web server
+          with a up to date version of tomcat.
+      </p>
+      <h2>Build</h2>
+      <p>
+          You should download or check out the source and build your own reverse proxy
+          with maven. You can configure everything on the command line. There is no need
+          to touch the source code at all that work on localhost forwarding requests to
+          port 8080 (your legacy tomcat) to 4567 (your modern micro service).          
+      </p>
+      <div>
+          <pre>mvn -Dproxy-port=8080 -Dweb-port=4567 -Dwar-filename=your#proxy clean install</pre>
+      </div>
+      <p>
+          This should give you a file name <strong>your#proxy.war</strong>
+      </p>
+      <h3>web.xml.url-pattern</h3>
+      <p>
+          Use this parameter to set the <strong>url-pattern</strong> in the
+          <strong>WEB-INF/web.xml</strong>.
+          The <strong>coseos reverse proxy servlet</strong> will only work
+          in this path. The default value, <strong>/</strong> will give you
+          a proxy that acts on a context.
+      </p>
+      <h3>proxy-host</h3>
+      <p>
+          Use this parameter to set the proxy host name. This should match to the host name
+          that is running the tomcat instance where you want to install the
+          <strong>coseos reverse proxy servlet</strong>, usually localhost for development. 
+      </p>
+      <h3>proxy-port</h3>
+      <p>
+          Use this parameter to set the proxy port name. This should match to the port number
+          that is running the tomcat instance where you want to install the
+          <strong>coseos reverse proxy servlet</strong>, usually 8080 by default. 
+      </p>
+      <h3>web-host</h3>
+      <p>
+          Use this parameter to set the web server host name that the proxy will forward
+          the requests to. For development, usually this is localhost, too. 
+      </p>
+      <h3>web-port</h3>
+      <p>
+          Use this parameter to set the web server port number that the proxy will forward
+          requests to. Port numbers for proxy-port and web-port have to be different when
+          proxy-host and web-host are the same.
+      </p>
+      <h2>Proxy</h2>
+      <p>
+          Remember that this is a simple proxy. It will not touch the path, path variables,
+          body, method or anything else with only a few exceptions from this rule.
+      </p>
+      <h3>Host Header</h3>
+      <p>
+          The <strong>Host:</strong> header is modified by the proxy when a request is
+          made including this header, using the hidden server and port for the new value.
+          When the request to the proxy does not include the <strong>Host:</strong> header,
+          no additional <strong>Host:</strong> header is added to the forwarded request.
+      </p>
+      <div>
+          <pre>Host: localhost:8080</pre>
+      </div>
+      <p>
+          The proxy will modify the host entry to match the values provided by web-host
+          and web-port.
+      </p>
+      <div>
+          <pre>Host: localhost:4567</pre>
+      </div>
+      <p>
+          This modification may be necessary, because the web server that receives the
+          forwarded request may check the value of the <strong>Host:</strong> header and
+          reject requests that are not intended for that web server.
+      </p>
+      <p>
+          The proxy will not verify that a <strong>Host:</strong> header in the request
+          to the proxy matches the proxy or the web server. It will simply replace it.
+      </p>
+      
+      <h2>Copyright and License</h2>
+      <p>
+          Copyright (c) 2019 by Thorsten J. Lorenz / coseos. All rights reserved. Alle Rechte vorbehalten.
+      </p>
+      <p>
+          Read and respect the license as documented in the LICENSE.txt file supplied with
+          this code. Distribution of this file without the LICENSE.txt file is in conflict
+          with the license of this software.
+      </p>
+      <p>
+          Please send reports about a license violation to
+          <a href="mailto:license-violation@coseos.com">license-violation@coseos.com</a>
+      </p>
+      <h2>Support</h2>
+      <p>
+          Commercial support for this software and monolithic to micro service migration
+          in general is available on request. Please contact
+          <a href="mailto:tech-support@coseos.com">tech-support@coseos.com</a>
+      </p>
+       
+    </div>
+  </body>
+</html>

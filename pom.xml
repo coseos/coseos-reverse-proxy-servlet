@@ -1,0 +1,159 @@
+<!-- ReverseProxyServlet
+ *
+ * The coseos reverse servlet proxy /pom.xml file 
+ *
+ * Copyright (c) 2019-2020 by Thorsten J. Lorenz / coseos
+ *
+ * All rights reserved.	Alle Rechte vorbehalten.
+ *
+ * Read and respect the license as documented in the /LICENSE.txt file supplied with
+ * this code. Distribution of this file	without the LICENSE.txt file is in conflict
+ * with the license of this software. 
+ *
+ * 
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.coseos.servlet.proxy</groupId>
+	<artifactId>coseos-reverse-proxy-servlet</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
+
+	<developers>
+		<developer>
+			<id>tlorenz</id>
+			<name>Thorsten J. Lorenz</name>
+			<email>tlorenz@coseos.com</email>
+		</developer>
+	</developers>
+
+	<licenses>
+		<license>
+			<name>MIT License, Version 2.0</name>
+			<url>https://opensource.org/licenses/MIT</url>
+		</license>
+	</licenses>
+
+	<organization>
+		<name>Thorsten J. Lorenz / coseos</name>
+		<url>https://coseos.com</url>
+	</organization>
+
+	<name>coseos-reverse-proxy-servlet</name>
+	<description>coseos reverse proxy servlet</description>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+
+		<!-- coseos-reverse-proxy-servlet init params -->
+		<web.xml.url-pattern>/</web.xml.url-pattern>
+		<proxy-host>localhost</proxy-host>
+		<proxy-port>8080</proxy-port>
+		<web-host>localhost</web-host>
+		<web-port>4567</web-port>
+		<war-filename>coseos#proxy#servlet</war-filename>
+
+		<!-- VERSIONS -->
+		<javax.servlet.api.version>3.1.0</javax.servlet.api.version>
+		<tomcat.version>8.5.54</tomcat.version><!-- 9.0.19 is not working as expected -->
+		<kotlin.stdlib.version>1.3.72</kotlin.stdlib.version>
+		<okhttp3.version>4.5.0</okhttp3.version>
+		<junit.jupiter.version>5.6.2</junit.jupiter.version>
+		<hamcrest.version>1.3</hamcrest.version>
+		<mockito.version>1.10.19</mockito.version>
+	</properties>
+
+	<build>
+		<finalName>${war-filename}</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>3.2.2</version>
+				<configuration>
+					<archive>
+						<manifestEntries>
+							<Copyright>Thorsten J. Lorenz / coseos</Copyright>
+							<Web>https://coseos.com/</Web>
+						</manifestEntries>
+					</archive>
+					<webResources>
+						<resource>
+							<filtering>true</filtering>
+							<directory>src/main/webapp</directory>
+							<includes>
+								<include>**/web.xml</include>
+							</includes>
+						</resource>
+					</webResources>
+					<warSourceDirectory>src/main/webapp</warSourceDirectory>
+					<webXml>src/main/webapp/WEB-INF/web.xml</webXml>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+
+		<!-- RUN -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>${javax.servlet.api.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jetbrains.kotlin</groupId>
+			<artifactId>kotlin-stdlib-common</artifactId>
+			<version>${kotlin.stdlib.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jetbrains.kotlin</groupId>
+			<artifactId>kotlin-stdlib-jdk8</artifactId>
+			<version>${kotlin.stdlib.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.squareup.okhttp3</groupId>
+			<artifactId>okhttp</artifactId>
+			<version>${okhttp3.version}</version>
+		</dependency>
+
+		<!-- TEST -->
+		<dependency>
+			<groupId>org.apache.tomcat</groupId>
+			<artifactId>tomcat-catalina</artifactId>
+			<version>${tomcat.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter</artifactId>
+			<version>${junit.jupiter.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hamcrest</groupId>
+			<artifactId>hamcrest-all</artifactId>
+			<version>${hamcrest.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<version>${mockito.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
+
+</project>

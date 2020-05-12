@@ -1,0 +1,31 @@
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" version="2.5">
+    <servlet>
+        <servlet-name>coseos-reverse-proxy-servlet</servlet-name>
+        <servlet-class>com.coseos.servlet.proxy.ReverseProxyServlet</servlet-class>
+
+        <!-- PROXY -->        
+        <init-param>
+          <param-name>proxy-host</param-name>
+          <param-value>${proxy-host}</param-value>
+        </init-param>
+        <init-param>
+          <param-name>proxy-port</param-name>
+          <param-value>${proxy-port}</param-value>
+        </init-param>
+        
+        <!-- WEB -->        
+        <init-param>
+          <param-name>web-host</param-name>
+          <param-value>${web-host}</param-value>
+        </init-param>
+        <init-param>
+          <param-name>web-port</param-name>
+          <param-value>${web-port}</param-value>
+        </init-param>
+        
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>coseos-reverse-proxy-servlet</servlet-name>
+        <url-pattern>${web.xml.url-pattern}</url-pattern>
+    </servlet-mapping>
+</web-app>
